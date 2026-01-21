@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mymedicine.myson_backend.mapper.PublicSearchMapper">
+
+    <select id="searchByCriteria" parameterType="map" resultType="com.mymedicine.myson_backend.dto.PublicMedicineDto">
+        SELECT
+        TBLKEY,
+        MED_ITEM_SEQ AS medItemSeq,
+        MED_ITEM_NAME AS medItemName,
+        MED_ENTP_NAME AS medEntpName,
+        MED_ITEM_IMAGE AS medItemImage,
+        DRUG_SHAPE AS drugShape,
+        COLOR_CLASS1 AS colorClass1,
+        COLOR_CLASS2 AS colorClass2,
+        PRINT_FRONT AS printFront,
+        PRINT_BACK AS printBack,
+        MED_CLASS_NAME AS medClassName
+        FROM TBL_PUBLIC_MEDICINE
+        <where>
+            <if test="itemName != null and itemName != ''">
+                AND MED_ITEM_NAME LIKE CONCAT('%', #{itemName}, '%')
+            </if>
+            <if test="drugShape != null and drugShape != ''">
+                AND DRUG_SHAPE = #{drugShape}
+            </if>
+            <if test="colorClass1 != null and colorClass1 != ''">
+                AND (COLOR_CLASS1 = #{colorClass1} OR COLOR_CLASS2 = #{colorClass1})
+            </if>
+            <if test="printFront != null and printFront != ''">
+                AND PRINT_FRONT = #{printFront}
+            </if>
+            <if test="printBack != null and printBack != ''">
+                AND PRINT_BACK = #{printBack}
+            </if>
+        </where>
+        LIMIT 100
+    </select>
+
+</mapper>

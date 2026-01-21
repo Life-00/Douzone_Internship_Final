@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mymedicine.myson_backend.mapper.UserMapper">
+
+    <insert id="registerUser" parameterType="com.mymedicine.myson_backend.dto.UserDto">
+        INSERT INTO TBL_USER (
+        TBLKEY, USER_ID, USER_PASSWORD, USER_NAME, ADDDATE, PROVIDER
+        ) VALUES (
+        #{tblkey}, #{userId}, #{userPassword}, #{userName}, #{adddate}, #{provider}
+        )
+    </insert>
+
+    <select id="findByUserId" parameterType="string" resultType="com.mymedicine.myson_backend.dto.UserDto">
+        SELECT
+        TBLKEY, USER_ID, USER_PASSWORD, USER_NAME, ADDDATE, PROVIDER, IS_PREGNANT
+        FROM TBL_USER
+        WHERE USER_ID = #{userId}
+    </select>
+
+    <select id="findByTblKey" parameterType="string" resultType="com.mymedicine.myson_backend.dto.UserDto">
+        SELECT
+        TBLKEY, USER_ID, USER_PASSWORD, USER_NAME, ADDDATE, PROVIDER, IS_PREGNANT
+        FROM TBL_USER
+        WHERE TBLKEY = #{tblkey}
+    </select>
+
+    <update id="updatePregnantStatus">
+        UPDATE TBL_USER
+        SET IS_PREGNANT = #{isPregnant}
+        WHERE TBLKEY = #{userKey}
+    </update>
+
+</mapper>

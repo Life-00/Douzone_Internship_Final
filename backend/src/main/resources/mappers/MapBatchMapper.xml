@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mymedicine.myson_backend.mapper.MapBatchMapper">
+
+    <insert id="insertMapDataList" parameterType="java.util.List">
+        INSERT INTO TBL_WASTE_BINS (
+        TBLKEY, PLACE_NAME, ADDRESS, LATITUDE, LONGITUDE, PHONE, PLACE_TYPE, DATA_STD_DE, ADDDATE
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.tblkey}, #{item.placeName}, #{item.address}, #{item.latitude}, #{item.longitude},
+            #{item.phone}, #{item.placeType}, #{item.dataStdDe}, #{item.adddate}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="deleteAllMapData">
+        DELETE FROM TBL_WASTE_BINS
+    </delete>
+
+    <select id="findAllMapData" resultType="com.mymedicine.myson_backend.dto.PharmacyMapDto">
+        SELECT
+        TBLKEY,
+        PLACE_NAME AS placeName,
+        ADDRESS AS address,
+        LATITUDE AS latitude,
+        LONGITUDE AS longitude,
+        PHONE AS phone,
+        PLACE_TYPE AS placeType,
+        DATA_STD_DE AS dataStdDe,
+        ADDDATE
+        FROM TBL_WASTE_BINS
+    </select>
+
+</mapper>

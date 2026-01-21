@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mymedicine.myson_backend.mapper.ApiBatchMapper">
+
+    <insert id="upsertPublicMedicineList" parameterType="java.util.List">
+        INSERT INTO TBL_PUBLIC_MEDICINE (
+        TBLKEY, MED_ITEM_SEQ, MED_ITEM_NAME, MED_ENTP_NAME, MED_ITEM_IMAGE,
+        DRUG_SHAPE, COLOR_CLASS1, COLOR_CLASS2, PRINT_FRONT, PRINT_BACK,
+        MED_CLASS_NAME, ADDDATE
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.tblkey}, #{item.medItemSeq}, #{item.medItemName}, #{item.medEntpName}, #{item.medItemImage},
+            #{item.drugShape}, #{item.colorClass1}, #{item.colorClass2}, #{item.printFront}, #{item.printBack},
+            #{item.medClassName}, #{item.adddate}
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        MED_ITEM_NAME = VALUES(MED_ITEM_NAME),
+        MED_ENTP_NAME = VALUES(MED_ENTP_NAME),
+        MED_ITEM_IMAGE = VALUES(MED_ITEM_IMAGE),
+        DRUG_SHAPE = VALUES(DRUG_SHAPE),
+        COLOR_CLASS1 = VALUES(COLOR_CLASS1),
+        COLOR_CLASS2 = VALUES(COLOR_CLASS2),
+        PRINT_FRONT = VALUES(PRINT_FRONT),
+        PRINT_BACK = VALUES(PRINT_BACK),
+        MED_CLASS_NAME = VALUES(MED_CLASS_NAME),
+        ADDDATE = VALUES(ADDDATE)
+    </insert>
+
+    <delete id="deleteAllPublicMedicine">
+        DELETE FROM TBL_PUBLIC_MEDICINE
+    </delete>
+
+    <insert id="upsertRecallMedicineList" parameterType="java.util.List">
+        INSERT INTO TBL_RECALL_MEDICINE (
+        ITEM_SEQ, PRDUCT_NAME, ENTP_NAME, RECALL_REASON, COMMAND_DATE, ENFRC_YN
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.itemSeq}, #{item.productName}, #{item.entpName},
+            #{item.recallReason}, #{item.commandDate}, #{item.enfrcYn}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="deleteAllRecallMedicine">
+        DELETE FROM TBL_RECALL_MEDICINE
+    </delete>
+
+    <insert id="upsertDurBanList" parameterType="java.util.List">
+        INSERT INTO TBL_DUR_BAN (
+        MAIN_ITEM_SEQ, MAIN_ITEM_NAME, TARGET_ITEM_SEQ, TARGET_ITEM_NAME, PROHBT_CONTENT
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.mainItemSeq}, #{item.mainItemName},
+            #{item.targetItemSeq}, #{item.targetItemName}, #{item.prohbtContent}
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        MAIN_ITEM_NAME = VALUES(MAIN_ITEM_NAME),
+        TARGET_ITEM_NAME = VALUES(TARGET_ITEM_NAME),
+        PROHBT_CONTENT = VALUES(PROHBT_CONTENT)
+    </insert>
+
+    <delete id="deleteAllDurBan">
+        DELETE FROM TBL_DUR_BAN
+    </delete>
+
+    <insert id="upsertPregnantBanList" parameterType="java.util.List">
+        INSERT INTO TBL_DUR_PREGNANT_BAN (
+        TYPE_NAME, INGR_CODE, INGR_NAME, ITEM_SEQ, ITEM_NAME, ENTP_NAME, PROHBT_CONTENT
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.typeName}, #{item.ingrCode}, #{item.ingrName},
+            #{item.itemSeq}, #{item.itemName}, #{item.entpName}, #{item.prohbtContent}
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        TYPE_NAME = VALUES(TYPE_NAME),
+        PROHBT_CONTENT = VALUES(PROHBT_CONTENT),
+        ITEM_NAME = VALUES(ITEM_NAME)
+    </insert>
+
+    <delete id="deleteAllPregnantBan">
+        DELETE FROM TBL_DUR_PREGNANT_BAN
+    </delete>
+
+</mapper>

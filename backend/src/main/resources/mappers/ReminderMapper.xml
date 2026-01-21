@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mymedicine.myson_backend.mapper.ReminderMapper">
+
+    <select id="findReminderByMedKey" resultType="com.mymedicine.myson_backend.dto.ReminderDto">
+        SELECT
+        TBLKEY, USER_KEY, MED_KEY, REMINDER_TIME, IS_ACTIVE,
+        FREQUENCY_TYPE, CUSTOM_VALUE
+        FROM TBL_REMINDER
+        WHERE USER_KEY = #{userKey} AND MED_KEY = #{medKey}
+    </select>
+
+    <select id="findAllRemindersByUserKey" resultType="com.mymedicine.myson_backend.dto.ReminderDto">
+        SELECT
+        R.TBLKEY, R.USER_KEY, R.MED_KEY, R.REMINDER_TIME, R.IS_ACTIVE,
+        R.FREQUENCY_TYPE, R.CUSTOM_VALUE,
+        M.ALIAS AS medAlias,
+        M.MED_ITEM_NAME AS medName
+        FROM TBL_REMINDER R
+        JOIN TBL_MEDICINE_CABINET M ON R.MED_KEY = M.TBLKEY
+        WHERE R.USER_KEY = #{userKey}
+        AND R.IS_ACTIVE = 'Y'
+    </select>
+
+    <insert id="insertReminder" parameterType="com.mymedicine.myson_backend.dto.ReminderDto">
+        INSERT INTO TBL_REMINDER (
+        TBLKEY, USER_KEY, MED_KEY, REMINDER_TIME, IS_ACTIVE,
+        FREQUENCY_TYPE, CUSTOM_VALUE,
+        ADDDATE, MODIFYDATE
+        ) VALUES (
+        #{tblkey}, #{userKey}, #{medKey}, #{reminderTime}, #{isActive},
+        #{frequencyType}, #{customValue},
+        #{adddate}, #{modifydate}
+        )
+        ON DUPLICATE KEY UPDATE
+        REMINDER_TIME = VALUES(REMINDER_TIME),
+        IS_ACTIVE = VALUES(IS_ACTIVE),
+        FREQUENCY_TYPE = VALUES(FREQUENCY_TYPE),
+        CUSTOM_VALUE = VALUES(CUSTOM_VALUE),
+        MODIFYDATE = VALUES(MODIFYDATE)
+    </insert>
+
+    <update id="updateReminder" parameterType="com.mymedicine.myson_backend.dto.ReminderDto">
+        UPDATE TBL_REMINDER
+        SET
+        REMINDER_TIME = #{reminderTime},
+        IS_ACTIVE = #{isActive},
+        FREQUENCY_TYPE = #{frequencyType},
+        CUSTOM_VALUE = #{customValue},
+        MODIFYDATE = #{modifydate}
+        WHERE USER_KEY = #{userKey} AND MED_KEY = #{medKey}
+    </update>
+
+</mapper>

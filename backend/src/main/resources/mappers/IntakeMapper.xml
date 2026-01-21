@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mymedicine.myson_backend.mapper.IntakeMapper">
+
+    <insert id="upsertIntake" parameterType="com.mymedicine.myson_backend.dto.IntakeDto">
+        INSERT INTO TBL_INTAKE_HISTORY (
+        TBLKEY, USER_KEY, MED_KEY, INTAKE_DATE, IS_TAKEN, ADDDATE
+        ) VALUES (
+        #{tblkey}, #{userKey}, #{medKey}, #{intakeDate}, #{isTaken}, #{adddate}
+        )
+        ON DUPLICATE KEY UPDATE
+        IS_TAKEN = VALUES(IS_TAKEN),
+        ADDDATE = VALUES(ADDDATE)
+    </insert>
+
+    <select id="findIntakeHistoryByDate" resultType="com.mymedicine.myson_backend.dto.IntakeDto">
+        SELECT
+        H.TBLKEY, H.USER_KEY, H.MED_KEY, H.INTAKE_DATE, H.IS_TAKEN,
+        M.ALIAS AS medAlias,
+        M.MED_ITEM_NAME AS medName
+        FROM TBL_INTAKE_HISTORY H
+        JOIN TBL_MEDICINE_CABINET M ON H.MED_KEY = M.TBLKEY
+        WHERE H.USER_KEY = #{userKey}
+        AND H.INTAKE_DATE = #{date}
+    </select>
+
+</mapper>

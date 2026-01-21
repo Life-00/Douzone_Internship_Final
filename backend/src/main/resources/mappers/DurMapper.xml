@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mymedicine.myson_backend.mapper.DurMapper">
+
+    <select id="checkDurBan" resultType="com.mymedicine.myson_backend.dto.DurBanDto">
+        SELECT
+        DUR_KEY, MAIN_ITEM_SEQ, MAIN_ITEM_NAME,
+        TARGET_ITEM_SEQ, TARGET_ITEM_NAME, PROHBT_CONTENT
+        FROM TBL_DUR_BAN
+        WHERE
+        (
+        MAIN_ITEM_SEQ = #{newItemSeq}
+        AND TARGET_ITEM_SEQ IN
+        <foreach collection="myDrugSeqs" item="seq" open="(" separator="," close=")">
+            #{seq}
+        </foreach>
+        )
+        OR
+        (
+        TARGET_ITEM_SEQ = #{newItemSeq}
+        AND MAIN_ITEM_SEQ IN
+        <foreach collection="myDrugSeqs" item="seq" open="(" separator="," close=")">
+            #{seq}
+        </foreach>
+        )
+    </select>
+
+    <select id="checkPregnantBan" resultType="com.mymedicine.myson_backend.dto.DurPregnantBanDto">
+        SELECT
+        ITEM_SEQ AS itemSeq,
+        ITEM_NAME AS itemName,
+        PROHBT_CONTENT AS prohbtContent,
+        TYPE_NAME AS typeName
+        FROM TBL_DUR_PREGNANT_BAN
+        WHERE ITEM_SEQ = #{newItemSeq}
+    </select>
+
+</mapper>

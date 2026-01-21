@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mymedicine.myson_backend.mapper.MedicineMapper">
+
+    <insert id="insertMedicine" parameterType="com.mymedicine.myson_backend.dto.MedicineDto">
+        INSERT INTO TBL_MEDICINE_CABINET (
+        TBLKEY, USER_KEY, MED_ITEM_SEQ, MED_ITEM_NAME, MED_ENTP_NAME,
+        MED_ITEM_IMAGE, MED_CLASS_NAME, ALIAS, EXPIRY_DATE, MEMO,
+        STATUS, DRUG_TYPE, PURCHASE_DATE, ADDDATE, MODIFYDATE
+        ) VALUES (
+        #{tblkey}, #{userKey}, #{medItemSeq}, #{medItemName}, #{medEntpName},
+        #{medItemImage}, #{medClassName}, #{alias}, #{expiryDate}, #{memo},
+        #{status}, #{drugType}, #{purchaseDate}, #{adddate}, #{modifydate}
+        )
+    </insert>
+
+    <select id="findMedicineListByUserKey" resultType="com.mymedicine.myson_backend.dto.MedicineDto">
+        SELECT
+        TBLKEY, USER_KEY, MED_ITEM_SEQ, MED_ITEM_NAME, MED_ENTP_NAME,
+        MED_ITEM_IMAGE, MED_CLASS_NAME, ALIAS, EXPIRY_DATE, MEMO, STATUS,
+        DRUG_TYPE, PURCHASE_DATE, ADDDATE, MODIFYDATE
+        FROM TBL_MEDICINE_CABINET
+        WHERE USER_KEY = #{userKey}
+        <if test="status != null and status != ''">
+            AND STATUS = #{status}
+        </if>
+        ORDER BY EXPIRY_DATE ASC, ALIAS ASC
+    </select>
+
+    <select id="findMedicineByIdAndUserKey" resultType="com.mymedicine.myson_backend.dto.MedicineDto">
+        SELECT
+        TBLKEY, USER_KEY, MED_ITEM_SEQ, MED_ITEM_NAME, MED_ENTP_NAME,
+        MED_ITEM_IMAGE, MED_CLASS_NAME, ALIAS, EXPIRY_DATE, MEMO, STATUS,
+        DRUG_TYPE, PURCHASE_DATE, ADDDATE, MODIFYDATE
+        FROM TBL_MEDICINE_CABINET
+        WHERE TBLKEY = #{tblkey}
+        AND USER_KEY = #{userKey}
+    </select>
+
+    <update id="updateMedicine" parameterType="com.mymedicine.myson_backend.dto.MedicineDto">
+        UPDATE TBL_MEDICINE_CABINET
+        SET
+        ALIAS = #{alias},
+        EXPIRY_DATE = #{expiryDate},
+        MEMO = #{memo},
+        STATUS = #{status},
+        DRUG_TYPE = #{drugType},
+        PURCHASE_DATE = #{purchaseDate},
+        MODIFYDATE = #{modifydate}
+        WHERE TBLKEY = #{tblkey}
+        AND USER_KEY = #{userKey}
+    </update>
+
+    <delete id="deleteMedicine">
+        DELETE FROM TBL_MEDICINE_CABINET
+        WHERE TBLKEY = #{tblkey}
+        AND USER_KEY = #{userKey}
+    </delete>
+
+</mapper>
