@@ -7,6 +7,8 @@
 [![React](https://img.shields.io/badge/React-18+-blue)](https://reactjs.org/)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED)](https://www.docker.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+![Mentored by Douzone](https://img.shields.io/badge/Mentored%20by-Douzone%20(Kicom)-blue)
+![Internship](https://img.shields.io/badge/Internship-KNU%20SW%20Center-green)
 
 ## 📖 프로젝트 개요
 
@@ -146,4 +148,10 @@ cd myson
 * **기간:** 2025.10.20 ~ 2025.11.28
 * **문의:** [이메일] 또는 GitHub Issues
 
-**Made with ❤️ by Kangwon National University SW-Centered University Internship Team**
+## 👥 팀 정보 및 멘토링
+* **Main Developer:** 김지훈 (강원대학교 컴퓨터공학과 21학번)
+* **Professional Mentoring:** 본 프로젝트는 **더존 키컴** 연구원님의 기술 멘토링(코드 리뷰 및 아키텍처 설계 가이드)을 통해 완성되었습니다.
+* **Project Duration:** 2025.10.20 ~ 2025.11.28
+* **Affiliation:** 강원대학교 SW중심대학사업단 인턴십 
+
+**Made with ❤️ by JiHoon KIM | Mentored by Douzone (Kicom)**
